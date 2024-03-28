@@ -31,7 +31,7 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
 
     public PlanetAPI star;
     private final WeightedRandomPicker<Color> picker = new WeightedRandomPicker<>();
-    private transient SoundAPI caramelDansen;
+    private transient SoundAPI caramelDansen = null;
     public boolean done = false;
     private boolean isMuted = false;
 
@@ -107,6 +107,7 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
         }
 
         // TODO find a way to raise the volume
+        // TODO Occasionally doesn't play... might be worth keeping like that since it makes it easier to add song variety
         float vol = Math.min(1f, 250000f / Misc.getDistance(playerFleet, star));
         vol *= 20;
 

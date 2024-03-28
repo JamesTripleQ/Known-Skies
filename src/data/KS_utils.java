@@ -1,7 +1,9 @@
 package data;
 
+import com.fs.starfarer.E.J;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.JumpPointAPI;
+import com.fs.starfarer.api.campaign.JumpPointAPI.JumpDestination;
 import com.fs.starfarer.api.campaign.PlanetAPI;
 import com.fs.starfarer.api.campaign.PlanetSpecAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
@@ -75,12 +77,16 @@ public class KS_utils {
             //JumpPointAPI jump = (JumpPointAPI) j;
             j.setName(star.getName() + ", Disco Ball");
         }
-
-        /* TODO consider removing the corona
-        StarCoronaTerrainPlugin corona = Misc.getCoronaFor(star);
-
-        if (corona != null) {
-
+         */
+        /*
+        for(SectorEntityToken j : Global.getSector().getHyperspace().getJumpPoints()) {
+            JumpPointAPI jump = (JumpPointAPI) j;
+            for (JumpDestination destination : jump.getDestinations()) {
+                if (destination.getDestination().getId().equals(star.getId())) {
+                    jump.removeDestination(star);
+                    jump.addDestination(new JumpDestination(star, star.getName()));
+                }
+            }
         }*/
 
         Global.getSector().addScript(new KS_DiscoScript(star));
