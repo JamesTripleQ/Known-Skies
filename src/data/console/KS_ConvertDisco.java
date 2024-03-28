@@ -7,8 +7,8 @@ import org.lazywizard.console.BaseCommand;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;
 
-import static data.scripts.KS_utils.ALLOWED_STARS;
-import static data.scripts.KS_utils.convertToDisco;
+import static data.KS_utils.ALLOWED_STARS;
+import static data.KS_utils.convertToDisco;
 
 @SuppressWarnings("unused")
 public class KS_ConvertDisco implements BaseCommand {
@@ -23,7 +23,7 @@ public class KS_ConvertDisco implements BaseCommand {
 
         LocationAPI currentLoc = Global.getSector().getPlayerFleet().getContainingLocation();
 
-        // Checks if used in Hyperspace
+        // Checks if used in hyperspace
         if (currentLoc.isHyperspace() || !(currentLoc instanceof StarSystemAPI)) {
             Console.showMessage("Error: This command cannot be used in Hyperspace.");
             return CommandResult.WRONG_CONTEXT;
