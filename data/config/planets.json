@@ -1,0 +1,20 @@
+{
+	"KS_disco":{
+		"name":"Disco Ball",
+		"tilt":0,
+		"pitch":0,
+		"rotation":-3,
+		"planetColor":[255,255,255,255],
+		"atmosphereThickness":0,
+		"atmosphereThicknessMin":0,
+		"atmosphereColor":[255,255,255,255],
+		"texture":"graphics/planets/KS_star_textureDisco.png",
+		"icon":"graphics/warroom/KS_disco_icon.png",
+		"iconColor":[255,255,255,255],
+		"starCoronaSprite":"graphics/fx/star_halo.png",
+		"starCoronaColor":[255,255,255,255],
+		"starCoronaSizeMult":5.12,
+		"isStar":true,
+		"lightPosition":[0,0,10]
+	}
+}

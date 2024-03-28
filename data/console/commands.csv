@@ -1,0 +1,2 @@
+command,class,tags,syntax,help
+ConvertDisco,data.console.KS_ConvertDisco,"known_skies,cheat,campaign",convertdisco (no arguments),Converts the primary star of the current system into a disco ball (if possible).
