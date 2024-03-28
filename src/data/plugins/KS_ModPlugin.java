@@ -9,23 +9,21 @@ import data.scripts.KS_DiscoScript;
 public class KS_ModPlugin extends BaseModPlugin {
     @Override
     public void afterGameSave() {
-        for (EveryFrameScript script : Global.getSector().getScripts()){
-            if (script instanceof KS_DiscoScript){
+        for (EveryFrameScript script : Global.getSector().getScripts()) {
+            if (script instanceof KS_DiscoScript) {
                 ((KS_DiscoScript) script).setMuted(false);
             }
         }
-
         super.afterGameSave();
     }
 
     @Override
     public void beforeGameSave() {
-        for (EveryFrameScript script : Global.getSector().getScripts()){
-            if (script instanceof KS_DiscoScript){
+        for (EveryFrameScript script : Global.getSector().getScripts()) {
+            if (script instanceof KS_DiscoScript) {
                 ((KS_DiscoScript) script).setMuted(true);
             }
         }
-
         super.beforeGameSave();
     }
 }

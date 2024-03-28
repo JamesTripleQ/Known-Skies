@@ -45,7 +45,6 @@ public class KS_ConvertDisco implements BaseCommand {
         }
 
         convertToDisco(star);
-        Global.getSector().addScript(new KS_DiscoScript(star));
 
         Console.showMessage(star.getName() + " has been converted into a disco ball.");
         return CommandResult.SUCCESS;

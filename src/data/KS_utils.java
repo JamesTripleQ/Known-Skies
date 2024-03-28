@@ -1,15 +1,19 @@
 package data;
 
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.campaign.JumpPointAPI;
 import com.fs.starfarer.api.campaign.PlanetAPI;
 import com.fs.starfarer.api.campaign.PlanetSpecAPI;
+import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.impl.campaign.ids.StarTypes;
 import com.fs.starfarer.api.impl.campaign.terrain.StarCoronaTerrainPlugin;
 import com.fs.starfarer.api.util.Misc;
 import com.fs.starfarer.loading.specs.PlanetSpec;
+import data.scripts.KS_DiscoScript;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class KS_utils {
     // ID for both the star and the condition
@@ -35,9 +39,13 @@ public class KS_utils {
     // Converts a star into a disco ball
     public static void convertToDisco(PlanetAPI star) {
         PlanetSpecAPI starSpec = star.getSpec();
+        float tilt = new Random().nextInt(80) - 40;
+        float pitch = new Random().nextInt(60) - 30;
 
         for (final PlanetSpecAPI spec : Global.getSettings().getAllPlanetSpecs()) {
             if (spec.getPlanetType().equals(DISCO_ID)) {
+                starSpec.setTilt(tilt);
+                starSpec.setPitch(pitch);
                 starSpec.setPlanetColor(spec.getPlanetColor());
                 starSpec.setAtmosphereThickness(spec.getAtmosphereThickness());
                 starSpec.setAtmosphereThicknessMin(spec.getAtmosphereThicknessMin());
@@ -60,11 +68,21 @@ public class KS_utils {
 
         star.applySpecChanges();
 
+        // TODO find a way to rename the jump point, this doesn't work
+        for (SectorEntityToken j : star.getStarSystem().getJumpPoints()){
+            JumpPointAPI jump = (JumpPointAPI) j;
+            if (jump.isStarAnchor()){
+                jump.setName(star.getName() + ", Disco Ball");
+            }
+        }
+
         /* make this remove the corona
         StarCoronaTerrainPlugin corona = Misc.getCoronaFor(star);
 
         if (corona != null) {
 
         }*/
+
+        Global.getSector().addScript(new KS_DiscoScript(star));
     }
 }

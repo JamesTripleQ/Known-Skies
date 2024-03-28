@@ -10,9 +10,10 @@ import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
+import static data.KS_utils.DISCO_ID;
 
-    public static final List<Color> colourList =  new LinkedList<Color>(){{
+public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
+    public static final List<Color> COLOR_LIST = new LinkedList<Color>() {{
         add(new Color(100, 255, 237, 255));
         add(new Color(255, 145, 253, 255));
         add(new Color(255, 50, 50, 255));
@@ -29,31 +30,26 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
     }};
 
     public PlanetAPI star;
-    public JumpPointAPI jumpPoint = null;
-    private WeightedRandomPicker<Color> picker = new WeightedRandomPicker<>();
+    private final WeightedRandomPicker<Color> picker = new WeightedRandomPicker<>();
     private transient SoundAPI caramelDansen;
-    private final Object loop1 = new Object();
-    private final Object loop2 = new Object();
     public boolean done = false;
     private boolean isMuted = false;
 
     float count = 0;
-    //float total = 0;
+    float total = 0;
 
     public KS_DiscoScript(PlanetAPI star) {
         super();
         this.star = star;
-
-
     }
 
     @Override
     public boolean isDone() {
-        return done || star.getContainingLocation() == null;
+        return done || star == null || star.getStarSystem() == null || star.getContainingLocation() == null;
     }
 
-    public void stopDansen(){
-        if(caramelDansen != null) caramelDansen.stop();
+    public void stopDansen() {
+        if (caramelDansen != null) caramelDansen.stop();
         caramelDansen = null;
     }
 
@@ -61,8 +57,8 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
         isMuted = muted;
     }
 
-    public void setVolumeZero(){
-        if(caramelDansen != null) caramelDansen.setVolume(0f);
+    public void setVolumeZero() {
+        if (caramelDansen != null) caramelDansen.setVolume(0f);
     }
 
     @Override
@@ -72,7 +68,7 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
 
     @Override
     public void advance(float amount) {
-        if(done || star == null || star.getContainingLocation() == null){
+        if (isDone()) {
             stopDansen();
             return;
         }
@@ -83,24 +79,22 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
     public void setDone(boolean done) {
         this.done = done;
 
-        if (done){
-            Global.getLogger(KS_DiscoScript.class).info("deleting dansen");
-
+        if (done) {
             stopDansen();
             Global.getSector().removeListener(this);
         }
     }
 
-    public void playDansen(float amount){
-        /*CampaignFleetAPI playerFleet = Global.getSector().getPlayerFleet();
+    public void playDansen(float amount) {
+        CampaignFleetAPI playerFleet = Global.getSector().getPlayerFleet();
         SectorAPI sector = Global.getSector();
 
-        if (sector.isPaused()
-                || isMuted
-                || star.getContainingLocation() != playerFleet.getContainingLocation()
-                || sector.getCampaignUI().isShowingDialog()
-                || sector.getCampaignUI().isShowingMenu()
-                || sector.getCampaignUI().getCurrentInteractionDialog() != null) {
+        if (sector.isPaused() ||
+                isMuted ||
+                star.getContainingLocation() != playerFleet.getContainingLocation() ||
+                sector.getCampaignUI().isShowingDialog() ||
+                sector.getCampaignUI().isShowingMenu() ||
+                sector.getCampaignUI().getCurrentInteractionDialog() != null) {
 
             setVolumeZero();
             total += getAdjustedAmt(amount);
@@ -112,51 +106,24 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
             return;
         }
 
-        //float vol = Math.min(1f, 250f / Misc.getDistance(playerFleet, star));
-        float vol = 250F;
+        // TODO find a way to raise the volume
+        float vol = Math.min(1f, 25000f / Misc.getDistance(playerFleet, star));
+        vol *= 10;
 
-        //TODO: this doesn't trigger so use Cabal's music system instead
-        //TODO: THIS WAS BASICALLY FIXED KINDA... SONG MIGHT RESTART A LOT
         if (caramelDansen == null || total > 178f) {
             total = 0;
-            caramelDansen = Global.getSoundPlayer().playSound("carameldansen", 1f, vol, star.getLocation(), Misc.ZERO);
+            caramelDansen = Global.getSoundPlayer().playSound(DISCO_ID, 1f, vol, star.getLocation(), Misc.ZERO);
         }
 
         caramelDansen.setVolume(vol);
-        caramelDansen.setLocation(star.getLocation().x, star.getLocation().y);*/
-
-        //TODO: NONE OF THR JUMPPOINTS CODE WORKS
-        CampaignFleetAPI playerFleet = Global.getSector().getPlayerFleet();
-        if(jumpPoint == null && playerFleet.isInHyperspace()) {
-            for (JumpPointAPI j : star.getStarSystem().getAutogeneratedJumpPointsInHyper()) {
-                if(j.isStarAnchor()){
-                    jumpPoint = j;
-                }
-            }
-        }
-
-        if (playerFleet != null
-                && star.getContainingLocation() == playerFleet.getContainingLocation()
-                && !Global.getSector().getCampaignUI().isShowingDialog()
-                && !Global.getSector().getCampaignUI().isShowingMenu()
-                && Global.getSector().getCampaignUI().getCurrentInteractionDialog() == null) {
-
-            float vol1 = Math.min(1f, 250000f / Misc.getDistance(playerFleet, star));
-            float vol2 = Math.min(1f, 250f / Misc.getDistance(playerFleet, star));
-
-            Global.getSoundPlayer().playLoop("carameldansen", loop1, 1f, vol1, star.getLocation(), Misc.ZERO);
-            if(jumpPoint != null){
-                Global.getSoundPlayer().playLoop("carameldansen", loop2, 1f, vol2, jumpPoint.getLocation(), Misc.ZERO);
-            }
-        }
-
+        caramelDansen.setLocation(star.getLocation().x, star.getLocation().y);
 
         float add = getAdjustedAmt(amount);
         count += add;
-        //total += add;
+        total += add;
 
         if (count > 0.365f) {
-            if (picker.isEmpty()) picker.addAll(colourList);
+            if (picker.isEmpty()) picker.addAll(COLOR_LIST);
 
             Color nextColor = picker.pickAndRemove();
 
@@ -164,14 +131,12 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
             star.getSpec().setPlanetColor(nextColor);
             star.getSpec().setAtmosphereColor(nextColor);
             star.getSpec().setCloudColor(nextColor);
-            //star.getSpec().setIconColor(nextColor);
             star.getSpec().setCoronaColor(nextColor);
             star.getSpec().setGlowColor(nextColor);
             star.getSpec().setShieldColor(nextColor);
             star.getSpec().setShieldColor2(nextColor);
             star.applySpecChanges();
 
-            //star.setSecondLight(nextColor);
             star.getStarSystem().setLightColor(nextColor);
             count = 0;
         }
@@ -182,7 +147,8 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
         super.reportFleetJumped(fleet, from, to);
 
         if (fleet.isPlayerFleet()) {
-            if (to != null && to.getDestination() != null && star.getContainingLocation() == to.getDestination().getContainingLocation()) playDansen(0);
+            if (to != null && to.getDestination() != null && star.getContainingLocation() == to.getDestination().getContainingLocation())
+                playDansen(0);
             else setVolumeZero();
         }
     }
@@ -191,5 +157,4 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
         boolean fast = Global.getSector().getCampaignUI().isFastForward();
         return fast ? amount / 2f : amount;
     }
-
 }
