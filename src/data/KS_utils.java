@@ -46,6 +46,8 @@ public class KS_utils {
             if (spec.getPlanetType().equals(DISCO_ID)) {
                 starSpec.setTilt(tilt);
                 starSpec.setPitch(pitch);
+                // TODO pick a rotation speed
+                // starSpec.setRotation();
                 starSpec.setPlanetColor(spec.getPlanetColor());
                 starSpec.setAtmosphereThickness(spec.getAtmosphereThickness());
                 starSpec.setAtmosphereThicknessMin(spec.getAtmosphereThicknessMin());
@@ -68,15 +70,13 @@ public class KS_utils {
 
         star.applySpecChanges();
 
-        // TODO find a way to rename the jump point, this doesn't work
+        /* TODO find a way to rename the jump point, this doesn't work
         for (SectorEntityToken j : star.getStarSystem().getJumpPoints()){
-            JumpPointAPI jump = (JumpPointAPI) j;
-            if (jump.isStarAnchor()){
-                jump.setName(star.getName() + ", Disco Ball");
-            }
+            //JumpPointAPI jump = (JumpPointAPI) j;
+            j.setName(star.getName() + ", Disco Ball");
         }
 
-        /* make this remove the corona
+        /* TODO consider removing the corona
         StarCoronaTerrainPlugin corona = Misc.getCoronaFor(star);
 
         if (corona != null) {

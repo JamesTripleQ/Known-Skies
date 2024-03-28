@@ -8,6 +8,16 @@ import data.scripts.KS_DiscoScript;
 @SuppressWarnings("unused")
 public class KS_ModPlugin extends BaseModPlugin {
     @Override
+    public void beforeGameSave() {
+        for (EveryFrameScript script : Global.getSector().getScripts()) {
+            if (script instanceof KS_DiscoScript) {
+                ((KS_DiscoScript) script).setMuted(true);
+            }
+        }
+        super.beforeGameSave();
+    }
+
+    @Override
     public void afterGameSave() {
         for (EveryFrameScript script : Global.getSector().getScripts()) {
             if (script instanceof KS_DiscoScript) {
@@ -18,12 +28,12 @@ public class KS_ModPlugin extends BaseModPlugin {
     }
 
     @Override
-    public void beforeGameSave() {
+    public void onGameLoad(boolean newGame) {
         for (EveryFrameScript script : Global.getSector().getScripts()) {
             if (script instanceof KS_DiscoScript) {
-                ((KS_DiscoScript) script).setMuted(true);
+                ((KS_DiscoScript) script).setMuted(false);
             }
         }
-        super.beforeGameSave();
+        super.onGameLoad(newGame);
     }
 }

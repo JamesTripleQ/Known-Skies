@@ -107,8 +107,8 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
         }
 
         // TODO find a way to raise the volume
-        float vol = Math.min(1f, 25000f / Misc.getDistance(playerFleet, star));
-        vol *= 10;
+        float vol = Math.min(1f, 250000f / Misc.getDistance(playerFleet, star));
+        vol *= 20;
 
         if (caramelDansen == null || total > 178f) {
             total = 0;
