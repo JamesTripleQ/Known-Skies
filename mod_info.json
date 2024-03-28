@@ -6,4 +6,5 @@
     "description": "The long awaited sequel to Unknown Skies. This is a serious mod.",
     "gameVersion": "0.97a-RC11",
     "jars":["jars/KS.jar"],
+    "modPlugin":"data.plugins.KS_ModPlugin"
 }

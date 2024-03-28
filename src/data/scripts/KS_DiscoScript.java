@@ -1,20 +1,16 @@
-package disco.scripts;
+package data.scripts;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.SoundAPI;
 import com.fs.starfarer.api.campaign.*;
-import com.fs.starfarer.api.campaign.econ.MarketAPI;
-import com.fs.starfarer.api.campaign.rules.MemoryAPI;
-import com.fs.starfarer.api.impl.campaign.ids.Entities;
 import com.fs.starfarer.api.util.Misc;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
-import org.lwjgl.util.vector.Vector2f;
 
 import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class DiscoStarScript extends BaseCampaignEventListenerAndScript {
+public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
 
     public static final List<Color> colourList =  new LinkedList<Color>(){{
         add(new Color(100, 255, 237, 255));
@@ -44,7 +40,7 @@ public class DiscoStarScript extends BaseCampaignEventListenerAndScript {
     float count = 0;
     //float total = 0;
 
-    public DiscoStarScript(PlanetAPI star) {
+    public KS_DiscoScript(PlanetAPI star) {
         super();
         this.star = star;
 
@@ -88,7 +84,7 @@ public class DiscoStarScript extends BaseCampaignEventListenerAndScript {
         this.done = done;
 
         if (done){
-            Global.getLogger(DiscoStarScript.class).info("deleting dansen");
+            Global.getLogger(KS_DiscoScript.class).info("deleting dansen");
 
             stopDansen();
             Global.getSector().removeListener(this);
