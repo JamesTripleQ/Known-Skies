@@ -8,8 +8,7 @@ import org.lazywizard.console.BaseCommand;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;
 
-import static data.KS_utils.ALLOWED_STARS;
-import static data.KS_utils.convertToDisco;
+import static data.KS_utils.*;
 
 @SuppressWarnings("unused")
 public class KS_ConvertDisco implements BaseCommand {
@@ -41,6 +40,12 @@ public class KS_ConvertDisco implements BaseCommand {
         // Checks if the star is valid
         if (!ALLOWED_STARS.contains(star.getTypeId())) {
             Console.showMessage("Error: star not allowed for conversion.");
+            return CommandResult.WRONG_CONTEXT;
+        }
+
+        // Checks if star is already a disco ball
+        if (star.getMemoryWithoutUpdate().contains(DISCO_MEM_KEY)) {
+            Console.showMessage("Error: star is already a disco ball.");
             return CommandResult.WRONG_CONTEXT;
         }
 

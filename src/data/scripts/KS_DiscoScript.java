@@ -108,7 +108,7 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
 
         // TODO find a way to raise the volume
         // TODO Occasionally doesn't play... might be worth keeping like that since it makes it easier to add song variety
-        float vol = Math.min(1f, 250000f / Misc.getDistance(playerFleet, star));
+        float vol = Math.min(1f, 2500f / Misc.getDistance(playerFleet, star));
         vol *= 20;
 
         if (caramelDansen == null || total > 178f) {
@@ -156,6 +156,7 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
 
     private float getAdjustedAmt(float amount) {
         boolean fast = Global.getSector().getCampaignUI().isFastForward();
-        return fast ? amount / 2f : amount;
+        float mult = Global.getSettings().getFloat("campaignSpeedupMult");
+        return fast ? amount / mult : amount;
     }
 }
