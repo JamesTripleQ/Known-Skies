@@ -43,7 +43,7 @@ public class KS_utils {
         // Stars usually don't have a tilt or pitch, so we set them ourselves along with rotation speed
         float tilt = new Random().nextInt(80) - 40;
         float pitch = new Random().nextInt(60) - 30;
-        float rotation = (new Random().nextInt(25) + 10) * (new Random().nextBoolean() ? -1 : 1);
+        float rotation = (new Random().nextInt(25) + 15) * (new Random().nextBoolean() ? -1 : 1);
 
         for (PlanetSpecAPI spec : Global.getSettings().getAllPlanetSpecs()) {
             if (spec.getPlanetType().equals(DISCO_ID)) {

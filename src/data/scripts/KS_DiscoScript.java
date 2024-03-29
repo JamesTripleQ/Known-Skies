@@ -35,6 +35,7 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
     private transient SoundAPI caramelDansen = null;
     public boolean done = false;
     private boolean isMuted = false;
+    private boolean isMusicPlayerRunning = true;
 
     float count = 0;
     float total = 0;
@@ -52,6 +53,10 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
     public void stopDansen() {
         if (caramelDansen != null) caramelDansen.stop();
         caramelDansen = null;
+        if(!isMusicPlayerRunning) {
+            Global.getSoundPlayer().setSuspendDefaultMusicPlayback(false);
+            isMusicPlayerRunning = true;
+        }
     }
 
     public void setMuted(boolean muted) {
@@ -60,6 +65,10 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
 
     public void setVolumeZero() {
         if (caramelDansen != null) caramelDansen.setVolume(0f);
+        if (!isMusicPlayerRunning) {
+            Global.getSoundPlayer().setSuspendDefaultMusicPlayback(false);
+            isMusicPlayerRunning = true;
+        }
     }
 
     @Override
@@ -106,7 +115,6 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
             return;
         }
 
-        // TODO Occasionally doesn't play... might be worth keeping like that since it makes it easier to add song variety
         float distance = Misc.getDistance(playerFleet, star);
         float falloff = 10000f + playerFleet.getMaxSensorRangeToDetect(star) + star.getRadius() + playerFleet.getRadius();
         float vol = (1f - (distance / falloff)) * 5;
@@ -119,6 +127,15 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
         if (caramelDansen == null || total > 178f) {
             total = 0;
             caramelDansen = Global.getSoundPlayer().playSound(DISCO_ID, 1f, vol, location, Misc.ZERO);
+        }
+
+        if (vol > 0 && caramelDansen != null && isMusicPlayerRunning) {
+            Global.getSoundPlayer().setSuspendDefaultMusicPlayback(true);
+            Global.getSoundPlayer().pauseMusic();
+            isMusicPlayerRunning = false;
+        } else if ((vol <= 0 || caramelDansen == null) && !isMusicPlayerRunning) {
+            Global.getSoundPlayer().setSuspendDefaultMusicPlayback(false);
+            isMusicPlayerRunning = true;
         }
 
         caramelDansen.setVolume(vol);
