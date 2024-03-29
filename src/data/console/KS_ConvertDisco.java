@@ -3,7 +3,6 @@ package data.console;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.*;
 
-import data.scripts.KS_DiscoScript;
 import org.lazywizard.console.BaseCommand;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;

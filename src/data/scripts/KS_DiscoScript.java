@@ -5,6 +5,7 @@ import com.fs.starfarer.api.SoundAPI;
 import com.fs.starfarer.api.campaign.*;
 import com.fs.starfarer.api.util.Misc;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
+import org.lwjgl.util.vector.Vector2f;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -72,7 +73,6 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
             stopDansen();
             return;
         }
-
         playDansen(amount);
     }
 
@@ -106,18 +106,23 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
             return;
         }
 
-        // TODO find a way to raise the volume
         // TODO Occasionally doesn't play... might be worth keeping like that since it makes it easier to add song variety
-        float vol = Math.min(1f, 2500f / Misc.getDistance(playerFleet, star));
-        vol *= 20;
+        float distance = Misc.getDistance(playerFleet, star);
+        float falloff = 10000f + playerFleet.getMaxSensorRangeToDetect(star) + star.getRadius() + playerFleet.getRadius();
+        float vol = (1f - (distance / falloff)) * 5;
+
+        Vector2f location = Global.getSoundPlayer().getListenerPos();
+        if (location == null) {
+            location = playerFleet.getLocation();
+        }
 
         if (caramelDansen == null || total > 178f) {
             total = 0;
-            caramelDansen = Global.getSoundPlayer().playSound(DISCO_ID, 1f, vol, star.getLocation(), Misc.ZERO);
+            caramelDansen = Global.getSoundPlayer().playSound(DISCO_ID, 1f, vol, location, Misc.ZERO);
         }
 
         caramelDansen.setVolume(vol);
-        caramelDansen.setLocation(star.getLocation().x, star.getLocation().y);
+        caramelDansen.setLocation(location.x, location.y);
 
         float add = getAdjustedAmt(amount);
         count += add;
