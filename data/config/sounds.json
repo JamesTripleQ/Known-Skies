@@ -1,5 +1,21 @@
 {
-	"KS_disco":[
-		{"file":"sound/KS_disco.ogg","pitch":1,"volume":1},
+	"KS_Dance":[
+		{"file":"sound/KS_Dance.ogg","pitch":1,"volume":1}
+	],
+
+	"KS_Disco":[
+		{"file":"sound/KS_Disco.ogg","pitch":1,"volume":1}
+	],
+
+	"KS_Friday":[
+		{"file":"sound/KS_Friday.ogg","pitch":1,"volume":1}
+	],
+
+	"KS_Roll":[
+		{"file":"sound/KS_Roll.ogg","pitch":1,"volume":1}
+	],
+
+	"KS_Specialist":[
+		{"file":"sound/KS_Specialist.ogg","pitch":1,"volume":1}
 	]
 }

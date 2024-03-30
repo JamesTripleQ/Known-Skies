@@ -5,13 +5,12 @@ import com.fs.starfarer.api.SoundAPI;
 import com.fs.starfarer.api.campaign.*;
 import com.fs.starfarer.api.util.Misc;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
-import org.lwjgl.util.vector.Vector2f;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import static data.KS_utils.DISCO_ID;
+import java.util.Random;
 
 public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
     public static final List<Color> COLOR_LIST = new LinkedList<Color>() {{
@@ -29,6 +28,16 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
         add(new Color(255, 175, 94, 255));
         add(new Color(244, 255, 94, 255));
     }};
+
+    private static final ArrayList<String> TRACK_LIST = new ArrayList<>();
+
+    static {
+        TRACK_LIST.add("KS_Dance");
+        TRACK_LIST.add("KS_Disco");
+        TRACK_LIST.add("KS_Friday");
+        TRACK_LIST.add("KS_Roll");
+        TRACK_LIST.add("KS_Specialist");
+    }
 
     public PlanetAPI star;
     private final WeightedRandomPicker<Color> picker = new WeightedRandomPicker<>();
@@ -53,7 +62,7 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
     public void stopDansen() {
         if (caramelDansen != null) caramelDansen.stop();
         caramelDansen = null;
-        if(!isMusicPlayerRunning) {
+        if (!isMusicPlayerRunning) {
             Global.getSoundPlayer().setSuspendDefaultMusicPlayback(false);
             isMusicPlayerRunning = true;
         }
@@ -119,14 +128,9 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
         float falloff = 10000f + playerFleet.getMaxSensorRangeToDetect(star) + star.getRadius() + playerFleet.getRadius();
         float vol = (1f - (distance / falloff)) * 5;
 
-        Vector2f location = Global.getSoundPlayer().getListenerPos();
-        if (location == null) {
-            location = playerFleet.getLocation();
-        }
-
-        if (caramelDansen == null || total > 178f) {
+        if (caramelDansen == null || total > 224f) {
             total = 0;
-            caramelDansen = Global.getSoundPlayer().playSound(DISCO_ID, 1f, vol, location, Misc.ZERO);
+            caramelDansen = Global.getSoundPlayer().playSound(TRACK_LIST.get(new Random().nextInt(TRACK_LIST.size())), 1f, vol, playerFleet.getLocation(), Misc.ZERO);
         }
 
         if (vol > 0 && caramelDansen != null && isMusicPlayerRunning) {
@@ -139,7 +143,7 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
         }
 
         caramelDansen.setVolume(vol);
-        caramelDansen.setLocation(location.x, location.y);
+        caramelDansen.setLocation(playerFleet.getLocation().x, playerFleet.getLocation().y);
 
         float add = getAdjustedAmt(amount);
         count += add;
