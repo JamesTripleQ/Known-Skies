@@ -25,17 +25,9 @@ public class KS_utils {
 
     static {
         ALLOWED_STARS.add(StarTypes.YELLOW);
-        ALLOWED_STARS.add(StarTypes.WHITE_DWARF);
         ALLOWED_STARS.add(StarTypes.BLUE_GIANT);
-        //ALLOWED_STARS.add(StarTypes.BLUE_SUPERGIANT);
         ALLOWED_STARS.add(StarTypes.ORANGE);
-        //ALLOWED_STARS.add(StarTypes.ORANGE_GIANT);
-        //ALLOWED_STARS.add(StarTypes.RED_SUPERGIANT);
         ALLOWED_STARS.add(StarTypes.RED_GIANT);
-        ALLOWED_STARS.add(StarTypes.RED_DWARF);
-        ALLOWED_STARS.add(StarTypes.BROWN_DWARF);
-        //ALLOWED_STARS.add(StarTypes.NEUTRON_STAR);
-        //ALLOWED_STARS.add(StarTypes.BLACK_HOLE);
     }
 
     // Converts a star into a disco ball

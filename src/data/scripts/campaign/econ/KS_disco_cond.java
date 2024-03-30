@@ -39,7 +39,7 @@ public class KS_disco_cond extends BaseMarketConditionPlugin implements MarketIm
     }
 
     private float getImmigrationBonus() {
-        return 10 * market.getSize();
+        return 15 * market.getSize();
     }
 
     @Override
