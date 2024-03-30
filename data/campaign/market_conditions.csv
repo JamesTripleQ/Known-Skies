@@ -1,0 +1,2 @@
+name,id,planetary,decivRemove,script,desc,icon,order
+Domain-era Disco Ball Vicinity,KS_disco,TRUE,,data.scripts.campaign.econ.KS_disco_cond,"People from all across the sector come to $market to witness the incredible Domain technology that is the giant disco ball present in the system. The magnificent megastructure has not only substantially increased tourism but also brought along waves of immigrants and potential investors that wish to party for the rest of their lives.",graphics/icons/markets/KS_disco.png,10

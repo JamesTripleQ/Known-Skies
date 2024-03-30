@@ -6,6 +6,7 @@ import com.fs.starfarer.api.campaign.JumpPointAPI.JumpDestination;
 import com.fs.starfarer.api.campaign.PlanetAPI;
 import com.fs.starfarer.api.campaign.PlanetSpecAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
+import com.fs.starfarer.api.campaign.econ.MarketConditionAPI;
 import com.fs.starfarer.api.impl.campaign.ids.StarTypes;
 import com.fs.starfarer.loading.specs.PlanetSpec;
 import data.scripts.KS_DiscoScript;
@@ -86,5 +87,14 @@ public class KS_utils {
 
         // Adds the script to the star
         Global.getSector().addScript(new KS_DiscoScript(star));
+
+        // Applies the condition
+        for (PlanetAPI planet : star.getStarSystem().getPlanets()) {
+            if (planet.getMarket() != null) {
+                if (!planet.getMarket().hasCondition(DISCO_ID)) {
+                    planet.getMarket().addCondition(DISCO_ID);
+                }
+            }
+        }
     }
 }
