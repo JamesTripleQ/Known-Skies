@@ -32,9 +32,12 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
     private static final ArrayList<String> TRACK_LIST = new ArrayList<>();
 
     static {
+        TRACK_LIST.add("KS_10K");
+        TRACK_LIST.add("KS_Apple");
         TRACK_LIST.add("KS_Dance");
         TRACK_LIST.add("KS_Disco");
         TRACK_LIST.add("KS_Friday");
+        TRACK_LIST.add("KS_Karma");
         TRACK_LIST.add("KS_Roll");
         TRACK_LIST.add("KS_Specialist");
     }
@@ -128,7 +131,7 @@ public class KS_DiscoScript extends BaseCampaignEventListenerAndScript {
         float falloff = 10000f + playerFleet.getMaxSensorRangeToDetect(star) + star.getRadius() + playerFleet.getRadius();
         float vol = (1f - (distance / falloff)) * 5;
 
-        if (caramelDansen == null || total > 224f) {
+        if (caramelDansen == null || total > 244f) {
             total = 0;
             caramelDansen = Global.getSoundPlayer().playSound(TRACK_LIST.get(new Random().nextInt(TRACK_LIST.size())), 1f, vol, playerFleet.getLocation(), Misc.ZERO);
         }

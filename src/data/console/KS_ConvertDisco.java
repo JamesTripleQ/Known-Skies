@@ -13,6 +13,7 @@ import static data.KS_utils.*;
 public class KS_ConvertDisco implements BaseCommand {
     @Override
     public CommandResult runCommand(String args, CommandContext context) {
+        boolean force = false;
 
         // Checks if used in campaign
         if (!context.isInCampaign()) {
@@ -31,14 +32,19 @@ public class KS_ConvertDisco implements BaseCommand {
         StarSystemAPI system = (StarSystemAPI) currentLoc;
         PlanetAPI star = system.getStar();
 
-        if (star == null) {
+        if (star == null || system.isNebula()) {
             Console.showMessage("Error: star not found.");
             return CommandResult.WRONG_CONTEXT;
         }
 
+        // Force star swap regardless of type
+        if (args.equalsIgnoreCase("force")) {
+            force = true;
+        }
+
         // Checks if the star is valid
-        if (!ALLOWED_STARS.contains(star.getTypeId())) {
-            Console.showMessage("Error: star not allowed for conversion.");
+        if (!ALLOWED_STARS.contains(star.getTypeId()) && !force) {
+            Console.showMessage("Error: star not allowed for conversion (type \"force\" after the command to convert anyway regardless of star type).");
             return CommandResult.WRONG_CONTEXT;
         }
 

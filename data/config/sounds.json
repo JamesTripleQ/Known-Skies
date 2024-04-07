@@ -1,4 +1,12 @@
 {
+	"KS_10K":[
+		{"file":"sound/KS_10K.ogg","pitch":1,"volume":1}
+	],
+
+	"KS_Apple":[
+		{"file":"sound/KS_Apple.ogg","pitch":1,"volume":1}
+	],
+
 	"KS_Dance":[
 		{"file":"sound/KS_Dance.ogg","pitch":1,"volume":1}
 	],
@@ -9,6 +17,10 @@
 
 	"KS_Friday":[
 		{"file":"sound/KS_Friday.ogg","pitch":1,"volume":1}
+	],
+
+	"KS_Karma":[
+		{"file":"sound/KS_Karma.ogg","pitch":1,"volume":1}
 	],
 
 	"KS_Roll":[
